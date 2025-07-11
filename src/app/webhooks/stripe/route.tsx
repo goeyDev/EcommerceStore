@@ -58,28 +58,28 @@ export async function POST(req: NextRequest) {
     console.log("ordersTable calling");
 
     // Calculate expiry time (24 hours from now)
-    const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24);
+    // const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24);
 
-    const [downloadVerification] = await db
-      .insert(downloadVerificationTable)
-      .values({
-        productId,
-        expiresAt,
-      })
-      .returning();
+    // const [downloadVerification] = await db
+    //   .insert(downloadVerificationTable)
+    //   .values({
+    //     productId,
+    //     expiresAt,
+    //   })
+    //   .returning();
 
-    await resend.emails.send({
-      from: `Support <${process.env.SENDER_EMAIL}>`,
-      to: email,
-      subject: "Order Confirmation",
-      react: (
-        <PurchaseReceiptEmail
-          order={order}
-          product={product}
-          downloadVerificationId={downloadVerification.id}
-        />
-      ),
-    });
+    // await resend.emails.send({
+    //   from: `Support <${process.env.SENDER_EMAIL}>`,
+    //   to: email,
+    //   subject: "Order Confirmation",
+    //   react: (
+    //     <PurchaseReceiptEmail
+    //       order={order}
+    //       product={product}
+    //       downloadVerificationId={downloadVerification.id}
+    //     />
+    //   ),
+    // });
   }
 
   return new NextResponse();
