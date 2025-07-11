@@ -43,6 +43,7 @@ next-env.d.ts
 
 #DB
 /src/drizzle/migrations
+/src/drizzle/migrations_neon
 /public/products
 /public/images
 /fileProducts

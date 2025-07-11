@@ -1,1 +1,0 @@
-ALTER TABLE "products" ADD COLUMN "isAvailableForPurchase" boolean DEFAULT false NOT NULL;

@@ -4,6 +4,9 @@ import { db } from "@/drizzle/db";
 import { downloadVerificationTable, productsTable } from "@/drizzle/schema";
 import { and, eq, gt } from "drizzle-orm";
 
+import { getDownloadURL, ref } from "firebase/storage";
+import { storage } from "@/lib/firebase"; // your Firebase storage init
+
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ downloadVerificationId: string }> }
@@ -36,19 +39,22 @@ export async function GET(
   }
 
   try {
-    const { size } = await fs.stat(data.filePath);
-    const file = await fs.readFile(data.filePath);
-    const extension = data.filePath.split(".").pop() ?? "bin"; // fallback extension
+    const storageRef = ref(storage, data.filePath);
+    const downloadUrl = await getDownloadURL(storageRef);
 
-    return new NextResponse(file, {
-      headers: {
-        "Content-Disposition": `attachment; filename="${data.name}.${extension}"`,
-        "Content-Length": size.toString(),
-        "Content-Type": "application/octet-stream", // optionally set based on extension
-      },
-    });
+    const extension = data.filePath.split(".").pop() ?? "bin";
+    const forcedName = `${data.name}.${extension}`;
+
+    const redirectUrl = new URL(downloadUrl);
+    redirectUrl.searchParams.set(
+      "response-content-disposition",
+      `attachment; filename="${forcedName}"`
+    );
+
+    // ⬇️ Force redirect to Firebase URL with download behavior
+    return NextResponse.redirect(redirectUrl.toString(), { status: 302 });
   } catch (err) {
-    console.error("File read error:", err);
+    console.error("Firebase read error:", err);
     return NextResponse.redirect(new URL("/products/download/error", req.url));
   }
 }

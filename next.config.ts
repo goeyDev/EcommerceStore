@@ -6,7 +6,12 @@ const nextConfig: NextConfig = {
   //   bodySizeLimit: "10mb", // or '2mb', '5mb', etc.
   // },
   images: {
-    domains: ["firebasestorage.googleapis.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "firebasestorage.googleapis.com",
+      },
+    ],
   },
 };
 
