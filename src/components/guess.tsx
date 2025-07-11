@@ -23,7 +23,7 @@ const Guest = () => {
         </div>
         <div className="flex-1 flex justify-center items-center">
           <Image
-            src="/images/mew.png"
+            src="/mew.png"
             alt="Pokemon Mew"
             className="w-full md:max-w-md rounded-tl-3xl rounded-br-3xl shadow-lg"
             width={200}
