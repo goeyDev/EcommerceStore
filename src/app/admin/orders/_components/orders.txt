@@ -1,0 +1,21 @@
+import { db } from "@/drizzle/db";
+
+export async function getOrders() {
+  const orders = await db.query.ordersTable.findMany({
+    columns: { id: true, pricePaidInCents: true },
+    with: {
+      user: {
+        columns: {
+          email: true,
+        },
+      },
+      product: {
+        columns: {
+          name: true,
+        },
+      },
+    },
+    orderBy: (orders, { desc }) => [desc(orders.createdAt)],
+  });
+  return orders;
+}
