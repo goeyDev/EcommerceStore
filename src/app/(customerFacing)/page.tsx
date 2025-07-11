@@ -195,7 +195,7 @@ export default async function Home() {
       <div className="min-h-screen flex flex-col">
         <div className="flex-grow flex items-center justify-center">
           <div className="text-center space-y-4">
-            <h1 className="text-3xl font-bold">Welcome to Sleep Tracker</h1>
+            <h1 className="text-3xl font-bold">Welcome to goeyDev Ecommerce</h1>
             <div className="flex space-x-4 mb-4">
               <Link
                 href="/sign-in"
