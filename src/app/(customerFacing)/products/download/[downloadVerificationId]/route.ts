@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import fs from "fs/promises";
 import { db } from "@/drizzle/db";
 import { downloadVerificationTable, productsTable } from "@/drizzle/schema";
 import { and, eq, gt } from "drizzle-orm";
