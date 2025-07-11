@@ -1,17 +1,17 @@
 import { db } from "@/drizzle/db";
 import {
-  downloadVerificationTable,
+  // downloadVerificationTable,
   ordersTable,
   productsTable,
 } from "@/drizzle/schema";
 import { desc, eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
-import { Resend } from "resend";
-import PurchaseReceiptEmail from "@/email/PurchaseReceipt";
+// import { Resend } from "resend";
+// import PurchaseReceiptEmail from "@/email/PurchaseReceipt";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
-const resend = new Resend(process.env.RESEND_API_KEY as string);
+// const resend = new Resend(process.env.RESEND_API_KEY as string);
 
 export async function POST(req: NextRequest) {
   const event = await stripe.webhooks.constructEvent(
