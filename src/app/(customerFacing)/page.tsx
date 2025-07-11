@@ -1,19 +1,3 @@
-import { getCurrentUser } from "@/auth/nextjs/currentUser";
-import Link from "next/link";
-import Guest from "@/components/guess";
-import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
-import {
-  ordersTable,
-  productsTable,
-  productsTableInferSelect,
-} from "@/drizzle/schema";
-import { db } from "@/drizzle/db";
-import { desc, eq, sql } from "drizzle-orm";
-import { ProductCard, ProductCardSkeleton } from "@/components/ProductCard";
-import { Suspense } from "react";
-import { cache } from "@/lib/cache";
-
 // prisma
 // const getMostPopularProducts = {
 //   return db.product.findMany({
@@ -109,31 +93,6 @@ import { cache } from "@/lib/cache";
 //   return result.map((row) => row.product);
 // }, ["/", "getMostPopularProducts"]);
 
-const getMostPopularProducts = cache(
-  async () => {
-    const result: {
-      product: productsTableInferSelect;
-      lastOrderedAt: Date | null;
-    }[] = await db
-      .select({
-        product: productsTable,
-        lastOrderedAt: sql<Date>`MAX(${ordersTable.createdAt})`.as(
-          "lastOrderedAt"
-        ),
-      })
-      .from(productsTable)
-      .leftJoin(ordersTable, eq(productsTable.id, ordersTable.productId))
-      .where(eq(productsTable.isAvailableForPurchase, true))
-      .groupBy(productsTable.id)
-      .orderBy(desc(sql`MAX(${ordersTable.createdAt})`))
-      .limit(6);
-
-    return result.map((row) => row.product);
-  },
-  ["/", "getMostPopularProducts"],
-  { revalidate: 60 * 60 * 24 }
-);
-
 // prisma
 
 // const getNewestProducts = cache(() => {
@@ -169,6 +128,47 @@ const getMostPopularProducts = cache(
 
 //   return result;
 // }
+
+import { getCurrentUser } from "@/auth/nextjs/currentUser";
+import Link from "next/link";
+import Guest from "@/components/guess";
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
+import {
+  ordersTable,
+  productsTable,
+  productsTableInferSelect,
+} from "@/drizzle/schema";
+import { db } from "@/drizzle/db";
+import { desc, eq, sql } from "drizzle-orm";
+import { ProductCard, ProductCardSkeleton } from "@/components/ProductCard";
+import { Suspense } from "react";
+import { cache } from "@/lib/cache";
+
+const getMostPopularProducts = cache(
+  async () => {
+    const result: {
+      product: productsTableInferSelect;
+      lastOrderedAt: Date | null;
+    }[] = await db
+      .select({
+        product: productsTable,
+        lastOrderedAt: sql<Date>`MAX(${ordersTable.createdAt})`.as(
+          "lastOrderedAt"
+        ),
+      })
+      .from(productsTable)
+      .leftJoin(ordersTable, eq(productsTable.id, ordersTable.productId))
+      .where(eq(productsTable.isAvailableForPurchase, true))
+      .groupBy(productsTable.id)
+      .orderBy(desc(sql`MAX(${ordersTable.createdAt})`))
+      .limit(6);
+
+    return result.map((row) => row.product);
+  },
+  ["/", "getMostPopularProducts"],
+  { revalidate: 60 * 60 * 24 }
+);
 
 const getNewestProducts = cache(async () => {
   const result = await db
