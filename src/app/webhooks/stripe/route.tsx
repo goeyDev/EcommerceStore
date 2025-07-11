@@ -45,6 +45,8 @@ export async function POST(req: NextRequest) {
       pricePaidInCents,
     });
 
+    console.log("ordersTable inserted");
+
     // ✅ 2. Fetch latest order for this user
     const [order] = await db
       .select()
@@ -52,6 +54,8 @@ export async function POST(req: NextRequest) {
       .where(eq(ordersTable.userId, userId))
       .orderBy(desc(ordersTable.createdAt))
       .limit(1);
+
+    console.log("ordersTable calling");
 
     // Calculate expiry time (24 hours from now)
     const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24);
