@@ -56,7 +56,7 @@ async function ProductsTable() {
 
   if (products.length === 0)
     return <p className="text-xl">No product found.</p>;
-  console.log("products", products);
+  // console.log("products", products);
   return (
     <Table>
       <TableHeader>

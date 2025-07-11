@@ -62,7 +62,6 @@ export async function emailOrderHistory(
     },
   });
 
-  console.log("All orders found:", user?.orders);
   if (user == null) {
     return {
       status: {

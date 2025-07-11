@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
     }
 
     // const userId = product.userId;
-    console.log("userId from webhooks", userId);
+    // console.log("userId from webhooks", userId);
 
     // ✅ 1. Insert new order for logged-in user
     await db.insert(ordersTable).values({

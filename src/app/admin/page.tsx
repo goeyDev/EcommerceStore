@@ -19,9 +19,9 @@ export default async function AdminDashboard() {
     getProductData(),
   ]);
 
-  console.log(userData);
+  userData;
 
-  console.log("salesData", salesData);
+  ("salesData", salesData);
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
       <DashboardCard

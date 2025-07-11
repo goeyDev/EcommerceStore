@@ -190,7 +190,7 @@ export async function updateProduct(
     image,
   });
 
-  console.log("result", result.success);
+  // console.log("result", result.success);
 
   if (!result.success) {
     const fieldErrors = result.error.flatten().fieldErrors;

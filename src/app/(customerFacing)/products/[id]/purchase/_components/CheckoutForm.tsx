@@ -99,11 +99,10 @@ function Form({
 
     setIsLoading(true);
 
-    console.log("productId from checkoutForm:", productId);
     const orderExists = await userOrderExists(userEmail, productId); //verify against with userEmail.
     // const orderExists = await userOrderExists(email, productId);
 
-    console.log("orderExists", orderExists);
+    // console.log("orderExists", orderExists);
 
     if (orderExists) {
       setErrorMessage(

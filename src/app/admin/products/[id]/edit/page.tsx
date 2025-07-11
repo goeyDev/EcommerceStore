@@ -17,7 +17,7 @@ export default async function EditProduct({
   if (!product) {
     return <div>Product not found</div>;
   }
-  console.log("product:", product);
+  // console.log("product:", product);
   return (
     <>
       <PageHeader>Edit Product</PageHeader>
