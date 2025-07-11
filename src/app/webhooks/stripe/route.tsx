@@ -48,12 +48,12 @@ export async function POST(req: NextRequest) {
     console.log("ordersTable inserted");
 
     // ✅ 2. Fetch latest order for this user
-    const [order] = await db
-      .select()
-      .from(ordersTable)
-      .where(eq(ordersTable.userId, userId))
-      .orderBy(desc(ordersTable.createdAt))
-      .limit(1);
+    // const [order] = await db
+    //   .select()
+    //   .from(ordersTable)
+    //   .where(eq(ordersTable.userId, userId))
+    //   .orderBy(desc(ordersTable.createdAt))
+    //   .limit(1);
 
     console.log("ordersTable calling");
 
