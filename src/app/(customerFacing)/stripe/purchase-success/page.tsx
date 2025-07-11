@@ -77,19 +77,3 @@ export default async function SuccessPage({
     </div>
   );
 }
-
-// import { nanoid } from "nanoid"; // if you need to generate a custom ID, optional
-
-// export async function createDownloadVerification(productId: string) {
-//   const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24); // 24 hours from now
-
-//   const [inserted] = await db
-//     .insert(downloadVerificationTable)
-//     .values({
-//       productId,
-//       expiresAt,
-//     })
-//     .returning({ id: downloadVerificationTable.id });
-
-//   return inserted.id;
-// }
