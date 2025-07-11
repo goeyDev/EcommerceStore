@@ -4,7 +4,8 @@ import {
   ordersTable,
   productsTable,
 } from "@/drizzle/schema";
-import { desc, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
+// import { desc, eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 // import { Resend } from "resend";
