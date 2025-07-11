@@ -23,35 +23,29 @@ export async function GET(
   if (product == null) return notFound();
 
   try {
-    const extension = product.filePath.split(".").pop() ?? "bin";
-    const filename = `${product.name}.${extension}`;
+    // Create a reference to the file in Firebase Storage
+    const fileRef = ref(storage, product.filePath);
 
-    // Get Firebase Storage download URL
-    const storageRef = ref(storage, product.filePath);
-    const downloadUrl = await getDownloadURL(storageRef);
+    // Get the download URL
+    const downloadURL = await getDownloadURL(fileRef);
 
-    // Append forced download behavior
-    const redirectUrl = new URL(downloadUrl);
-    redirectUrl.searchParams.set(
-      "response-content-disposition",
-      `attachment; filename="${filename}"`
-    );
+    // Fetch the file from the download URL
+    const response = await fetch(downloadURL);
+    const fileBlob = await response.blob();
+    const fileBuffer = await fileBlob.arrayBuffer();
 
-    // Redirect browser to Firebase-hosted file (download will be triggered)
-    return NextResponse.redirect(redirectUrl.toString(), { status: 302 });
-  } catch (err) {
-    console.error("Firebase download error:", err);
-    return NextResponse.redirect(new URL("/products/download/error", req.url));
+    // Get the file extension from the path
+    const extension = product.filePath.split(".").pop();
+
+    return new NextResponse(fileBuffer, {
+      headers: {
+        "Content-Disposition": `attachment; filename="${product.name}.${extension}"`,
+        "Content-Length": fileBlob.size.toString(),
+        "Content-Type": fileBlob.type,
+      },
+    });
+  } catch (error) {
+    console.error("Error downloading file from Firebase Storage:", error);
+    return notFound();
   }
 }
-
-// const { size } = await fs.stat(product.filePath);
-// const file = await fs.readFile(product.filePath);
-// const extension = product.filePath.split(".").pop();
-
-// return new NextResponse(file, {
-//   headers: {
-//     "Content-Disposition": `attachment:filename="${product.name}.${extension}"`,
-//     "Content-Length": size.toString(),
-//   },
-// });
