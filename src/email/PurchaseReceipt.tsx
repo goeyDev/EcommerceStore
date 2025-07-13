@@ -8,7 +8,7 @@ import {
   Tailwind,
 } from "@react-email/components";
 import { OrderInformation } from "./components/OrderInformation";
-import dotenv from "dotenv";
+// import dotenv from "dotenv";
 
 type PurchaseReceiptEmailProps = {
   product: {
@@ -39,7 +39,7 @@ export default function PurchaseReceiptEmail({
   order,
   downloadVerificationId,
 }: PurchaseReceiptEmailProps) {
-  dotenv.config();
+  // dotenv.config();
 
   return (
     <Html>
