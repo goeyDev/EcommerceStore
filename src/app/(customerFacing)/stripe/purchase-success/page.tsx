@@ -30,9 +30,6 @@ export default async function SuccessPage({
 
   const product = queryProduct[0];
 
-  // const product = await db.product.findUnique({
-  //   where: { id: paymentIntent.metadata.productId },
-  // })
   if (product == null) return notFound();
 
   const isSuccess = paymentIntent.status === "succeeded";

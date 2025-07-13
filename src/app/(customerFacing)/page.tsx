@@ -222,13 +222,11 @@ export default async function Home() {
 
   return (
     <main className="container space-y-12">
-      {/* <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> */}
       <ProductGridSection
         title="Most Populsr"
         productsFetcher={getMostPopularProducts}
       />
       <ProductGridSection title="Newest" productsFetcher={getNewestProducts} />
-      {/* </div> */}
     </main>
   );
 }
@@ -244,13 +242,6 @@ function ProductGridSection({
 }: ProductGridSectionProps) {
   return (
     <div className="space-y-4">
-      {/* <div className="w-20 h-20 overflow-hidden border">
-        <p>
-          This is a long paragraph that will not be fully visible because
-          overflow is hidden.
-        </p>
-      </div> */}
-
       <div className="flex gap-4">
         <h2 className="text-3xl font-bold">{title}</h2>
         <Button variant="outline">
@@ -287,6 +278,6 @@ async function ProductSuspense({
       key={product.id}
       {...product}
       description={product.description ?? ""}
-    /> // convert null to ""
+    />
   ));
 }

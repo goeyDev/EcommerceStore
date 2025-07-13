@@ -163,24 +163,11 @@ export async function updateProduct(
 ): Promise<inputFormState> {
   const user = await requireUserId();
 
-  //   const result = addSchema.safeParse(Object.fromEntries(formData.entries()));
-  //    This method only work without file object as it will turn all field to string
-
   const name = formData.get("name");
   const description = formData.get("description");
   const priceInCents = formData.get("priceInCents");
   const file = formData.get("filePath");
   const image = formData.get("imagePath");
-
-  // ⛔ These might be strings or File objects, so check:
-  // if (!(file instanceof File) || !(image instanceof File)) {
-  //   return {
-  //     status: {
-  //       error: true,
-  //       message: "Both file and image are required",
-  //     },
-  //   };
-  // }
 
   const result = editSchema.safeParse({
     name,
@@ -189,8 +176,6 @@ export async function updateProduct(
     file,
     image,
   });
-
-  // console.log("result", result.success);
 
   if (!result.success) {
     const fieldErrors = result.error.flatten().fieldErrors;
@@ -222,24 +207,6 @@ export async function updateProduct(
     return {
       status: { error: true, message: "no product found." },
     };
-
-  //   File and Image during development stage - Local
-  // let filePath = product.filePath;
-  // if (data.file != null && data.file.size > 0) {
-  //   await fs.unlink(product.filePath);
-  //   filePath = `fileProducts/${crypto.randomUUID()}-${data.file.name}`;
-  //   await fs.writeFile(filePath, Buffer.from(await data.file.arrayBuffer()));
-  // }
-
-  // let imagePath = product.imagePath;
-  // if (data.image != null && data.image.size > 0) {
-  //   await fs.unlink(`public/${product.imagePath}`);
-  //   imagePath = `/products/${crypto.randomUUID()}-${data.image.name}`;
-  //   await fs.writeFile(
-  //     `public${imagePath}`,
-  //     Buffer.from(await data.image.arrayBuffer())
-  //   );
-  // }
 
   // 🔁 Handle file replacement
   let filePath = product.filePath;
@@ -318,10 +285,6 @@ export async function deleteProduct(id: string) {
       .delete(productsTable)
       .where(and(eq(productsTable.id, id), eq(productsTable.userId, user.id)))
       .returning();
-
-    // Local
-    // await fs.unlink(product.filePath);
-    // await fs.unlink(`public/${product.imagePath}`);
 
     if (product.filePath) {
       const fileRef = ref(storage, getFirebasePath(product.filePath));

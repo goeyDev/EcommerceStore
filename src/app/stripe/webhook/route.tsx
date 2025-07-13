@@ -36,9 +36,6 @@ export async function POST(req: NextRequest) {
         return new NextResponse("Bad Request", { status: 400 });
       }
 
-      // const userId = product.userId;
-      // console.log("userId from webhooks", userId);
-
       // ✅ 1. Insert new order for logged-in user
       await db.insert(ordersTable).values({
         userId, // already authenticated,from matadata,purchase page
@@ -89,25 +86,3 @@ export async function POST(req: NextRequest) {
     return new NextResponse("Webhook error", { status: 500 });
   }
 }
-
-// return inserted row(s)
-
-// const userFields = {
-//   email,
-//   orders: { create: { productId, pricePaidInCents } },
-// };
-// const {
-//   orders: [order],
-// } = await db.user.upsert({
-//   where: { email },
-//   create: userFields,
-//   update: userFields,
-//   select: { orders: { orderBy: { createdAt: "desc" }, take: 1 } },
-// });
-
-// const downloadVerification = await db.downloadVerification.create({
-//   data: {
-//     productId,
-//     expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24),
-//   },
-// });
