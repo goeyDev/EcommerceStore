@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { renderAsync } from "@react-email/render";
+import { render } from "@react-email/render";
 
 const transporter = nodemailer.createTransport({
   service: process.env.SMTP_Service,
@@ -21,8 +21,8 @@ export async function sendEmail(options: {
 }) {
   // Use renderAsync and await both renders
   const [html, text] = await Promise.all([
-    renderAsync(options.react),
-    renderAsync(options.react, { plainText: true }),
+    render(options.react),
+    render(options.react, { plainText: true }),
   ]);
 
   await transporter.sendMail({
@@ -33,13 +33,3 @@ export async function sendEmail(options: {
     text,
   });
 }
-
-// import nodemailer from "nodemailer";
-// export const transporter = nodemailer.createTransport({
-//   host: process.env.SMTP_HOST,
-//   port: Number(process.env.SMTP_PORT),
-//   auth: {
-//     user: process.env.SMTP_USER,
-//     pass: process.env.SMTP_PASS,
-//   },
-// });
