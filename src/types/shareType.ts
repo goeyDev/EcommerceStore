@@ -20,6 +20,7 @@ export type inputFormState = {
     name?: string[];
     description?: string[];
     priceInCents?: string[];
+    quantity?: string[];
     file?: string[];
     image?: string[];
   };

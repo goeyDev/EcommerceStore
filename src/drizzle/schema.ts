@@ -2,6 +2,7 @@ import { relations } from "drizzle-orm";
 import {
   boolean,
   inet,
+  integer,
   jsonb,
   pgEnum,
   pgTable,
@@ -80,6 +81,7 @@ export const productsTable = pgTable("products", {
   filePath: varchar("filePath").notNull(),
   imagePath: varchar("imagePath").notNull(),
   description: text("description"),
+  quantity: integer("quantity").notNull().default(1),
   isAvailableForPurchase: boolean("isAvailableForPurchase")
     .notNull()
     .default(false),
@@ -96,6 +98,7 @@ export type productsTableInferInsert = typeof productsTable.$inferInsert;
 export const ordersTable = pgTable("orders", {
   id: uuid("id").primaryKey().defaultRandom(),
   pricePaidInCents: real("pricePaidInCents").notNull(),
+  quantity: integer("quantity").notNull().default(1),
   createdAt,
   updatedAt,
   userId: uuid("userId")

@@ -19,14 +19,6 @@ const imageSchema = fileSchema.refine(
   (file) => file.size === 0 || file.type.startsWith("image/")
 );
 
-// function getFirebasePath(fullUrl: string): string {
-//   const bucket = process.env.FIREBASE_STORAGE_BUCKET!;
-//   const prefix = `https://firebasestorage.googleapis.com/v0/b/${bucket}/o/`;
-
-//   // Strip prefix and query params
-//   return decodeURIComponent(fullUrl.replace(prefix, "").split("?")[0]);
-// }
-
 function getFirebasePath(url: string) {
   const base = `https://firebasestorage.googleapis.com/v0/b/${process.env.FIREBASE_STORAGE_BUCKET}/o/`;
   return decodeURIComponent(url.replace(base, "").split("?")[0]);
@@ -36,6 +28,7 @@ const addSchema = z.object({
   name: z.string().min(1),
   description: z.string().min(1),
   priceInCents: z.coerce.number().int().min(1),
+  quantity: z.coerce.number().int().min(1),
   file: fileSchema.refine((file) => file.size > 0, "Required"),
   image: imageSchema.refine((file) => file.size > 0, "Required"),
 });
@@ -63,6 +56,7 @@ export async function addProduct(
   const name = formData.get("name");
   const description = formData.get("description");
   const priceInCents = formData.get("priceInCents");
+  const quantity = formData.get("quantity");
   const file = formData.get("filePath");
   const image = formData.get("imagePath");
 
@@ -80,6 +74,7 @@ export async function addProduct(
     name,
     description,
     priceInCents,
+    quantity,
     file,
     image,
   });
@@ -90,6 +85,7 @@ export async function addProduct(
       fieldErrors.name?.[0] ||
       fieldErrors.description?.[0] ||
       fieldErrors.priceInCents?.[0] ||
+      fieldErrors.quantity?.[0] ||
       fieldErrors.file?.[0] ||
       fieldErrors.image?.[0] ||
       "Invalid input";
@@ -135,6 +131,7 @@ export async function addProduct(
     name: data.name,
     description: data.description,
     priceInCents: data.priceInCents,
+    quantity: data.quantity,
     isAvailableForPurchase: false,
     filePath: uploadedFile.url,
     imagePath: uploadedImage.url,
@@ -166,6 +163,7 @@ export async function updateProduct(
   const name = formData.get("name");
   const description = formData.get("description");
   const priceInCents = formData.get("priceInCents");
+  const quantity = formData.get("quantity");
   const file = formData.get("filePath");
   const image = formData.get("imagePath");
 
@@ -173,6 +171,7 @@ export async function updateProduct(
     name,
     description,
     priceInCents,
+    quantity,
     file,
     image,
   });
@@ -183,6 +182,7 @@ export async function updateProduct(
       fieldErrors.name?.[0] ||
       fieldErrors.description?.[0] ||
       fieldErrors.priceInCents?.[0] ||
+      fieldErrors.quantity?.[0] ||
       fieldErrors.file?.[0] ||
       fieldErrors.image?.[0] ||
       "Invalid input";
@@ -236,6 +236,7 @@ export async function updateProduct(
       name: data.name,
       description: data.description,
       priceInCents: data.priceInCents,
+      quantity: product.quantity + (data.quantity || 1),
       isAvailableForPurchase: false,
       filePath,
       imagePath,

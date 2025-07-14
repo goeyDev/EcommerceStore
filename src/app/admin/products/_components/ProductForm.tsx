@@ -52,6 +52,21 @@ export default function ProductForm() {
           </p>
         )}
       </div>
+      <div className="">
+        <Label htmlFor="quantity">Quantity</Label>
+        <Input
+          type="number"
+          id="quantity"
+          name="quantity"
+          defaultValue={1}
+          required
+        />
+        {state.fieldErrors?.quantity && (
+          <p className="text-red-600 text-sm">
+            {state.fieldErrors.quantity[0]}
+          </p>
+        )}
+      </div>
       <div className="space-y-2">
         <Label htmlFor="description">Description</Label>
         <Textarea id="description" name="description" required />

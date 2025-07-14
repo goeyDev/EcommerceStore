@@ -46,6 +46,7 @@ async function ProductsTable() {
       id: productsTable.id,
       name: productsTable.name,
       priceInCents: productsTable.priceInCents,
+      quantity: productsTable.quantity,
       isAvailableForPurchase: productsTable.isAvailableForPurchase,
       orderCount: sql<number>`COUNT(${ordersTable.id})`.as("orderCount"),
     })
@@ -67,6 +68,7 @@ async function ProductsTable() {
           <TableHead>Name</TableHead>
           <TableHead>Price</TableHead>
           <TableHead>Orders</TableHead>
+          <TableHead>Stock Quantity</TableHead>
           <TableHead className="w-0">
             <span className="sr-only">Action</span>
           </TableHead>
@@ -91,6 +93,7 @@ async function ProductsTable() {
             <TableCell>{product.name}</TableCell>
             <TableCell>{formatCurrency(product.priceInCents / 100)}</TableCell>
             <TableCell>{formatNumber(product.orderCount)}</TableCell>
+            <TableCell>{product.quantity}</TableCell>
             <TableCell>
               <DropdownMenu>
                 <DropdownMenuTrigger>

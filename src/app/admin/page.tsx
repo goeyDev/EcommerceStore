@@ -24,19 +24,19 @@ export default async function AdminDashboard() {
       <DashboardCard
         title="Sales"
         subtitle={` ${formatCurrency(salesData.amount)} Orders`}
-        body={formatNumber(salesData.numberOfSales)}
+        body={formatNumber(salesData.amount)}
       />
       <DashboardCard
         title="Customers"
-        subtitle={` ${formatNumber(
+        subtitle={` ${formatCurrency(
           userData.averageValuePerUser
         )} Average Value`}
-        body={formatCurrency(userData.countUser)}
+        body={formatNumber(userData.countUser)}
       />
       <DashboardCard
         title="Products"
         subtitle={` ${formatNumber(productData.countInactive)} Inactive`}
-        body={formatCurrency(productData.countActive)}
+        body={formatNumber(productData.countActive)}
       />
     </div>
   );
