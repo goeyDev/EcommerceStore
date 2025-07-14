@@ -45,6 +45,11 @@ export default function Products() {
 
 async function ProductsSuspense() {
   const products = await getProducts();
+
+  if (products.length === 0)
+    return (
+      <p className="text-2xl font-semibold text-center">No product found.</p>
+    );
   return products.map((product) => (
     <ProductCard
       key={product.id}

@@ -10,8 +10,8 @@ const transporter = nodemailer.createTransport({
     user: process.env.GMAIL_USER,
     pass: process.env.GMAIL_APP_PASSWORD,
   },
-  logger: true, //Enable logging
-  debug: true, //show debug output
+  //logger: true, //Enable logging
+  //debug: true, //show debug output
 });
 
 export async function sendEmail(options: {
